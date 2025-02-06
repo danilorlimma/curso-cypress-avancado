@@ -109,6 +109,19 @@ describe('Hacker Stories', () => {
         .should('be.visible')
     })
 
+    //esse teste abaixo é só um exemplo opção disponível para submissão de formulários com Cypress, porém, a qual não recomendo utilizar a não ser que seja
+    //  totalmente necessário, visto que não é assim que usuários utilizam a aplicação. Ou seja, os usuários não tem como invocar a submissão do
+    //  formulário diretamente.
+    it.only('types and submits the form directly', () => {
+      cy.get('#search')
+        .type(newTerm)
+      cy.get('form').submit()
+
+      cy.wait('@getNewTermStories')
+
+      cy.get('.item').should('have.length', 20)
+  })
+
     context('Last searches', () => {
       it('searches via the last searched term', () => {
         cy.get('#search')
@@ -131,7 +144,7 @@ describe('Hacker Stories', () => {
       })
 
       Cypress._.times(2, () => {
-        it.only('shows a max of 5 buttons for the last searched terms', () => {
+        it('shows a max of 5 buttons for the last searched terms', () => {
           const faker = require('faker')
           cy.intercept(
             'GET',
