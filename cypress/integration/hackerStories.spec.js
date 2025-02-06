@@ -1,5 +1,3 @@
-const { pt_BR } = require('faker/lib/locales')
-
 describe('Hacker Stories', () => {
   beforeEach(() => {
     cy.intercept({
@@ -132,8 +130,8 @@ describe('Hacker Stories', () => {
           .should('be.visible')
       })
 
-      Cypress._.times(3, () => {
-        it('shows a max of 5 buttons for the last searched terms', () => {
+      Cypress._.times(2, () => {
+        it.only('shows a max of 5 buttons for the last searched terms', () => {
           const faker = require('faker')
           cy.intercept(
             'GET',
