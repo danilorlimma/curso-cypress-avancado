@@ -1,3 +1,5 @@
+const { pt_BR } = require('faker/lib/locales')
+
 describe('Hacker Stories', () => {
   beforeEach(() => {
     cy.intercept({
@@ -84,7 +86,7 @@ describe('Hacker Stories', () => {
       cy.get('#search')
         .type(`${newTerm}{enter}`)
       cy.wait('@getNewTermStories')
-     
+
 
       cy.get('.item').should('have.length', 20)
       cy.get('.item')
@@ -110,7 +112,7 @@ describe('Hacker Stories', () => {
     })
 
     context('Last searches', () => {
-      it.only('searches via the last searched term', () => {
+      it('searches via the last searched term', () => {
         cy.get('#search')
           .type(`${newTerm}{enter}`)
 
@@ -130,19 +132,24 @@ describe('Hacker Stories', () => {
           .should('be.visible')
       })
 
-      it('shows a max of 5 buttons for the last searched terms', () => {
-        const faker = require('faker')
+      Cypress._.times(3, () => {
+        it('shows a max of 5 buttons for the last searched terms', () => {
+          const faker = require('faker')
+          cy.intercept(
+            'GET',
+            '**/search?query=**'
+          ).as('getRandomStories')
 
-        Cypress._.times(6, () => {
-          cy.get('#search')
-            .clear()
-            .type(`${faker.random.word()}{enter}`)
+          Cypress._.times(6, () => {
+            cy.get('#search')
+              .clear()
+              .type(`${faker.random.word()}{enter}`)
+            cy.wait('@getRandomStories')
+          })
+
+          cy.get('.last-searches button')
+            .should('have.length', 5)
         })
-
-        cy.assertLoadingIsShownAndHidden()
-
-        cy.get('.last-searches button')
-          .should('have.length', 5)
       })
     })
   })
