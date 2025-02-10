@@ -154,12 +154,17 @@ describe('Hacker Stories', () => {
       })
 
       context('Last searches', () => {
-        Cypress._.times(2, () => {
+        Cypress._.times(3, () => {
           it('shows a max of 5 buttons for the last searched terms', () => {
             const faker = require('faker')
             cy.intercept(
               'GET',
-              '**/search?query=**'
+              '**/search?query=**',
+              {
+                statusCode: 200,
+                body: {
+                  hits: []
+                }}
             ).as('getRandomStories')
 
             Cypress._.times(6, () => {
