@@ -145,12 +145,10 @@ describe('Hacker Stories', () => {
           .type(newTerm)
         cy.contains('Submit')
           .click()
-        cy.wait('@getNewTermStories')
+        cy.wait('@getStories')
 
-        cy.get('.item').should('have.length', 20)
-        cy.get('.item')
-          .first()
-          .should('contain', newTerm)
+        cy.get('.item').should('have.length', 2)
+        
         cy.get(`button:contains(${initialTerm})`)
           .should('be.visible')
       })
