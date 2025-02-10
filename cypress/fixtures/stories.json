@@ -1,31 +1,20 @@
 {
-    "stories": [
-        {
-       "title":"Sample 1",
+    "hits": [
+      {
+        "title": "sample1",
         "url": "https://example.com/1",
-       "author":"Author 1",
-        "num_comments":34,
+        "author": "author 1",
+        "num_comments": 34,
         "points": 91,
-        "objectID":0
-
-        },
-        {
-        "title":"Sample 2",
-        "url": "https://example.com/1",
-        "author":"Author 3",
-        "num_comments":34,
+        "objectID": 0
+      },
+      {
+        "title": "sample2",
+        "url": "https://example.com/2",
+        "author": "author 2",
+        "num_comments": 50,
         "points": 98,
-        "objectID":1
-
-        },
-        {
-        "title":"Sample 3",
-        "url": "https://example.com/1",
-        "author":"Author 3",
-        "num_comments":34,
-        "points": 68,
-        "objectID":0
-
-        }
+        "objectID": 1
+      }
     ]
-}
+  }
