@@ -54,14 +54,13 @@ describe('Hacker Stories', () => {
       cy.get(`button:contains(${newTerm})`)
         .should('be.visible')
     })
-
   })
   context('Mocking the API', () => {
     beforeEach(() => {
       cy.intercept(
         'GET',
        `**/search?query=${initialTerm}&page=0`,
-       {fixture: 'stories'} 
+       { fixture: 'stories' }
       ).as('getStories')
 
       cy.visit('/')
@@ -82,8 +81,7 @@ describe('Hacker Stories', () => {
       // TODO: Find a way to test it out.
       it.skip('shows the right data for all rendered stories', () => { })
 
-
-      it.only('shows one less story after dimissing the first one', () => {
+      it('shows one less story after dimissing the first one', () => {
         cy.get('.button-small')
           .first()
           .click()
@@ -105,26 +103,26 @@ describe('Hacker Stories', () => {
 
         it('orders by points', () => { })
       })
-
-
     })
 
     context('Search', () => {
-
-
       beforeEach(() => {
-        cy.intercept('GET', `**/search?query=${newTerm}&page=0`).as('getNewTermStories')
+        cy.intercept(
+          'GET',
+          `**/search?query=${newTerm}&page=0`,
+          { fixture: 'stories' }
+        ).as('getNewTermStories')
+
         cy.get('#search')
           .clear()
       })
 
-      it('types and hits ENTER', () => {
+      it.only('types and hits ENTER', () => {
         cy.get('#search')
           .type(`${newTerm}{enter}`)
         cy.wait('@getNewTermStories')
 
-
-        cy.get('.item').should('have.length', 20)
+        cy.get('.item').should('have.length', 4)
         cy.get('.item')
           .first()
           .should('contain', newTerm)
@@ -148,8 +146,6 @@ describe('Hacker Stories', () => {
       })
 
       context('Last searches', () => {
-
-
         Cypress._.times(2, () => {
           it('shows a max of 5 buttons for the last searched terms', () => {
             const faker = require('faker')
@@ -173,9 +169,6 @@ describe('Hacker Stories', () => {
       // Hrm, how would I simulate such errors?
       // Since I still don't know, the tests are being skipped.
       // TODO: Find a way to test them out.
-
-
-
     })
   })
 })
