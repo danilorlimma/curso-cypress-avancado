@@ -15,6 +15,31 @@
         "num_comments": 50,
         "points": 98,
         "objectID": 1
+      },
+      {
+        "title": "sample3",
+        "url": "https://example.com/3",
+        "author": "author 3",
+        "num_comments": 10,
+        "points": 50,
+        "objectID": 2
+      },
+      {
+        "title": "sample4",
+        "url": "https://example.com/4",
+        "author": "author 4",
+        "num_comments": 20,
+        "points": 70,
+        "objectID": 3
+      },
+      {
+        "title": "sample5",
+        "url": "https://example.com/5",
+        "author": "author 5",
+        "num_comments": 30,
+        "points": 80,
+        "objectID": 4
       }
+      
     ]
   }

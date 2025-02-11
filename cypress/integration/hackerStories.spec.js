@@ -56,6 +56,7 @@ describe('Hacker Stories', () => {
     })
   })
   context('Mocking the API', () => {
+    const stories = require('../fixtures/stories.json')
     context('Footer and list of stories', () => {
       beforeEach(() => {
         cy.intercept(
@@ -75,13 +76,14 @@ describe('Hacker Stories', () => {
       })
   
       context('List of stories', () => {
+       
         // Since the API is external,
         // I can't control what it will provide to the frontend,
         // and so, how can I assert on the data?
         // This is why this test is being skipped.
         // TODO: Find a way to test it out.
-        it.only('shows the right data for all rendered stories', () => {
-          const stories = require('../fixtures/stories.json')
+        it('shows the right data for all rendered stories', () => {
+          
          cy.get('.item')
         .first()
         .should('contain', stories.hits[0].title)
@@ -96,12 +98,14 @@ describe('Hacker Stories', () => {
                     
          })
   
-        it('shows one less story after dimissing the first one', () => {
+         
+         it.only('shows one less story after dimissing the first one', () => {
+          Cypress._.times(4, () => {
           cy.get('.button-small')
             .first()
-            .click()
+            .click()})
   
-          cy.get('.item').should('have.length', 1)
+          cy.get('.item').should('have.length', stories.hits.length - 4)
         })
   
         // Since the API is external,
@@ -148,7 +152,7 @@ describe('Hacker Stories', () => {
           .type(`${newTerm}{enter}`)
         cy.wait('@getStories')
 
-        cy.get('.item').should('have.length', 2)
+        cy.get('.item').should('have.length', stories.hits.length)
         
         cy.get(`button:contains(${initialTerm})`)
           .should('be.visible')
@@ -161,7 +165,7 @@ describe('Hacker Stories', () => {
           .click()
         cy.wait('@getStories')
 
-        cy.get('.item').should('have.length', 2)
+        cy.get('.item').should('have.length', stories.hits.length)
         
         cy.get(`button:contains(${initialTerm})`)
           .should('be.visible')
