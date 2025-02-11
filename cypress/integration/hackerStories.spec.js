@@ -61,54 +61,65 @@ describe('Hacker Stories', () => {
       beforeEach(() => {
         cy.intercept(
           'GET',
-         `**/search?query=${initialTerm}&page=0`,
-         { fixture: 'stories' }
+          `**/search?query=${initialTerm}&page=0`,
+          { fixture: 'stories' }
         ).as('getStories')
-  
+
         cy.visit('/')
         cy.wait('@getStories')
       })
-  
+
       it.skip('shows the footer', () => {
         cy.get('footer')
           .should('be.visible')
           .and('contain', 'Icons made by Freepik from www.flaticon.com')
       })
-  
+
       context('List of stories', () => {
-       
+
         // Since the API is external,
         // I can't control what it will provide to the frontend,
         // and so, how can I assert on the data?
         // This is why this test is being skipped.
         // TODO: Find a way to test it out.
         it('shows the right data for all rendered stories', () => {
-          
-         cy.get('.item')
-        .first()
-        .should('contain', stories.hits[0].title)
-        .and('contain', stories.hits[0].author)
-        .and('contain', stories.hits[0].num_comments)
-        .and('contain', stories.hits[0].points)
 
-        cy.get(`.item a:contains(${stories.hits[0].title})`)
-        .should('have.attr', 'href', stories.hits[0].url)
-        //cy.contains('.item a', stories.hits[0].title)  
-  //.should('have.attr', 'href', stories.hits[0].url);
-                    
-         })
-  
-         
-         it('shows one less story after dimissing the first one', () => {
+          cy.get('.item')
+            .first()
+            .should('contain', stories.hits[0].title)
+            .and('contain', stories.hits[0].author)
+            .and('contain', stories.hits[0].num_comments)
+            .and('contain', stories.hits[0].points)
+
+          cy.get(`.item a:contains(${stories.hits[0].title})`)
+            .should('have.attr', 'href', stories.hits[0].url)
+          //cy.contains('.item a', stories.hits[0].title)  
+          //.should('have.attr', 'href', stories.hits[0].url);
+
+          cy.get('.item')
+            .last()
+            .should('contain', stories.hits[1].title)
+            .and('contain', stories.hits[1].author)
+            .and('contain', stories.hits[1].num_comments)
+            .and('contain', stories.hits[1].points)
+
+          cy.get(`.item a:contains(${stories.hits[1].title})`)
+            .should('have.attr', 'href', stories.hits[1].url)
+
+        })
+
+
+        it('shows one less story after dimissing the first one', () => {
           const lessTimes = stories.hits.length - 1
           Cypress._.times(lessTimes, () => {
-          cy.get('.button-small')
-            .first()
-            .click()})
-  
+            cy.get('.button-small')
+              .first()
+              .click()
+          })
+
           cy.get('.item').should('have.length', stories.hits.length - lessTimes)
         })
-  
+
         // Since the API is external,
         // I can't control what it will provide to the frontend,
         // and so, how can I test ordering?
@@ -116,16 +127,16 @@ describe('Hacker Stories', () => {
         // TODO: Find a way to test them out.
         context.skip('Order by', () => {
           it('orders by title', () => { })
-  
+
           it('orders by author', () => { })
-  
+
           it('orders by comments', () => { })
-  
+
           it('orders by points', () => { })
         })
       })
     })
-  
+
 
     context('Search', () => {
       beforeEach(() => {
@@ -154,7 +165,7 @@ describe('Hacker Stories', () => {
         cy.wait('@getStories')
 
         cy.get('.item').should('have.length', stories.hits.length)
-        
+
         cy.get(`button:contains(${initialTerm})`)
           .should('be.visible')
       })
@@ -167,7 +178,7 @@ describe('Hacker Stories', () => {
         cy.wait('@getStories')
 
         cy.get('.item').should('have.length', stories.hits.length)
-        
+
         cy.get(`button:contains(${initialTerm})`)
           .should('be.visible')
       })
@@ -183,7 +194,8 @@ describe('Hacker Stories', () => {
                 statusCode: 200,
                 body: {
                   hits: []
-                }}
+                }
+              }
             ).as('getRandomStories')
 
             Cypress._.times(6, () => {
