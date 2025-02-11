@@ -81,20 +81,19 @@ describe('Hacker Stories', () => {
         // This is why this test is being skipped.
         // TODO: Find a way to test it out.
         it.only('shows the right data for all rendered stories', () => {
-          cy.get('.item').should('have.length', 2)
-  
-          cy.get('.item')
-            .first()
-            .within(() => {
-              cy.get('a')
-                .should('have.attr', 'href')
-                .and('include', 'http')
-  
-              cy.get('button')
-                .should('be.visible')
-               
-            })
+          const stories = require('../fixtures/stories.json')
+         cy.get('.item')
+        .first()
+        .should('contain', stories.hits[0].title)
+        .and('contain', stories.hits[0].author)
+        .and('contain', stories.hits[0].num_comments)
+        .and('contain', stories.hits[0].points)
 
+        cy.get(`.item a:contains(${stories.hits[0].title})`)
+        .should('have.attr', 'href', stories.hits[0].url)
+        //cy.contains('.item a', stories.hits[0].title)  
+  //.should('have.attr', 'href', stories.hits[0].url);
+                    
          })
   
         it('shows one less story after dimissing the first one', () => {
