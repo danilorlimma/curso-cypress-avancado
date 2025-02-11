@@ -122,7 +122,32 @@ describe('Hacker Stories', () => {
         // This is why these tests are being skipped.
         // TODO: Find a way to test them out.
         context('Order by', () => {
-          it.only('orders by title', () => { })
+          it.only('orders by title', () => {
+            cy.get('button:contains(Title)')
+              .as('titleOrder')
+              .click()
+
+            cy.get('.item')
+              .first()
+              .should('be.visible')
+              .as('firstItem')
+              .should('contain', stories.hits[0].title)
+            cy.get(`.item a:contains(${stories.hits[0].title})`)
+              .should('have.attr', 'href', stories.hits[0].url)
+
+
+            cy.get('@titleOrder')
+            .click()
+
+            cy.get('.item')
+            .first()
+            .should('be.visible')
+            .as('firstItem')
+            .should('contain', stories.hits[1].title)
+          cy.get(`.item a:contains(${stories.hits[1].title})`)
+            .should('have.attr', 'href', stories.hits[1].url)
+
+           })
 
           it('orders by author', () => { })
 
