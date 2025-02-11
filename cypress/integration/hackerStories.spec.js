@@ -99,13 +99,14 @@ describe('Hacker Stories', () => {
          })
   
          
-         it.only('shows one less story after dimissing the first one', () => {
-          Cypress._.times(4, () => {
+         it('shows one less story after dimissing the first one', () => {
+          const lessTimes = stories.hits.length - 1
+          Cypress._.times(lessTimes, () => {
           cy.get('.button-small')
             .first()
             .click()})
   
-          cy.get('.item').should('have.length', stories.hits.length - 4)
+          cy.get('.item').should('have.length', stories.hits.length - lessTimes)
         })
   
         // Since the API is external,
