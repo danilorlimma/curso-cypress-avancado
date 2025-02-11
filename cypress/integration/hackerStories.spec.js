@@ -122,7 +122,7 @@ describe('Hacker Stories', () => {
         // This is why these tests are being skipped.
         // TODO: Find a way to test them out.
         context('Order by', () => {
-          it.only('orders by title', () => {
+          it('orders by title', () => {
             cy.get('button:contains(Title)')
               .as('titleOrder')
               .click()
@@ -137,23 +137,80 @@ describe('Hacker Stories', () => {
 
 
             cy.get('@titleOrder')
-            .click()
+              .click()
 
             cy.get('.item')
-            .first()
-            .should('be.visible')
-            .as('firstItem')
-            .should('contain', stories.hits[1].title)
-          cy.get(`.item a:contains(${stories.hits[1].title})`)
-            .should('have.attr', 'href', stories.hits[1].url)
+              .first()
+              .should('be.visible')
+              .as('firstItem')
+              .should('contain', stories.hits[1].title)
+            cy.get(`.item a:contains(${stories.hits[1].title})`)
+              .should('have.attr', 'href', stories.hits[1].url)
 
-           })
+          })
 
-          it('orders by author', () => { })
+          it('orders by author', () => {
+            cy.get('button:contains(Author)')
+              .as('authorOrder')
+              .click()
 
-          it('orders by comments', () => { })
+            cy.get('.item')
+              .first()
+              .should('be.visible')
+              .as('firstItem')
+              .should('contain', stories.hits[0].author)
 
-          it('orders by points', () => { })
+            cy.get('@authorOrder')
+              .click()
+
+            cy.get('.item')
+              .first()
+              .should('be.visible')
+              .as('firstItem')
+              .should('contain', stories.hits[1].author)
+          })
+
+          it('orders by comments', () => {
+            cy.get('button:contains(Comments)')
+              .as('commentsOrder')
+              .click()
+
+            cy.get('.item')
+              .first()
+              .should('be.visible')
+              .as('firstItem')
+              .should('contain', stories.hits[1].num_comments)
+
+            cy.get('@commentsOrder')
+              .click()
+
+            cy.get('.item')
+              .first()
+              .should('be.visible')
+              .as('firstItem')
+              .should('contain', stories.hits[0].num_comments)
+          })
+
+          it('orders by points', () => {
+            cy.get('button:contains(Points)')
+              .as('pointsOrder')
+              .click()
+
+            cy.get('.item')
+              .first()
+              .should('be.visible')
+              .as('firstItem')
+              .should('contain', stories.hits[0].points)
+
+            cy.get('@pointsOrder')
+              .click()
+
+            cy.get('.item')
+              .first()
+              .should('be.visible')
+              .as('firstItem')
+              .should('contain', stories.hits[1].points)
+          })
         })
       })
     })
