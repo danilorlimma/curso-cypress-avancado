@@ -80,7 +80,22 @@ describe('Hacker Stories', () => {
         // and so, how can I assert on the data?
         // This is why this test is being skipped.
         // TODO: Find a way to test it out.
-        it.skip('shows the right data for all rendered stories', () => { })
+        it.only('shows the right data for all rendered stories', () => {
+          cy.get('.item').should('have.length', 2)
+  
+          cy.get('.item')
+            .first()
+            .within(() => {
+              cy.get('a')
+                .should('have.attr', 'href')
+                .and('include', 'http')
+  
+              cy.get('button')
+                .should('be.visible')
+               
+            })
+
+         })
   
         it('shows one less story after dimissing the first one', () => {
           cy.get('.button-small')
