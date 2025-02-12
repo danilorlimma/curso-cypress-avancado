@@ -72,11 +72,12 @@ describe('Hacker Stories', () => {
         cy.intercept(
           'GET',
           `**/search?query=${initialTerm}&page=0`,
-          { fixture: 'stories' }
+          { fixture: 'stories',
+            delay: 1000
+          }
         ).as('getStories')
 
         cy.visit('/')
-        cy.wait('@getStories')
       })
 
       it.skip('shows the footer', () => {
@@ -91,6 +92,10 @@ describe('Hacker Stories', () => {
         // and so, how can I assert on the data?
         // This is why this test is being skipped.
         // TODO: Find a way to test it out.
+        it('shows a "Loading ..." state before showing the results', () => {
+          cy.get('p:contains(Loading ...)').should('be.visible')
+          cy.wait('@getStories')
+        });
         it('shows the right data for all rendered stories', () => {
           cy.get('.item')
             .first()
