@@ -310,10 +310,14 @@ describe('Hacker Stories', () => {
             ).as('getRandomStories')
 
             Cypress._.times(6, () => {
+              const randomTerm = faker.random.word()
               cy.get('#search')
                 .clear()
-                .type(`${faker.random.word()}{enter}`)
+                //.type(`${faker.random.word()}{enter}`)
+                .type(`${randomTerm}{enter}`)
               cy.wait('@getRandomStories')
+              cy.getLocalStorage('search')
+                .should('be.equal', randomTerm)
             })
 
             cy.get('.last-searches').within(() => {
