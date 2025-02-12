@@ -44,11 +44,17 @@ describe('Hacker Stories', () => {
 
       cy.wait('@getNewTermStories')
 
+      cy.getLocalStorage('search')
+        .should('be.equal', newTerm)
+
       cy.get(`button:contains(${initialTerm})`)
         .should('be.visible')
         .click()
 
       cy.wait('@getStories')
+
+      cy.getLocalStorage('search')
+        .should('be.equal', initialTerm)
 
       cy.get('.item').should('have.length', 20)
       cy.get('.item')
@@ -143,7 +149,6 @@ describe('Hacker Stories', () => {
             cy.get(`.item a:contains(${stories.hits[0].title})`)
               .should('have.attr', 'href', stories.hits[0].url)
 
-
             cy.get('@titleOrder')
               .click()
 
@@ -154,7 +159,6 @@ describe('Hacker Stories', () => {
               .should('contain', stories.hits[1].title)
             cy.get(`.item a:contains(${stories.hits[1].title})`)
               .should('have.attr', 'href', stories.hits[1].url)
-
           })
 
           it('orders by author', () => {
@@ -243,6 +247,10 @@ describe('Hacker Stories', () => {
         cy.visit('/')
         cy.wait('@getEmptyStories')
 
+        // experimento inidividual - demonstra que o local storage está funcionando ao fazer requisição e
+        // não somente na interação do usuário (neste caso funciona ao passar requisição)
+        cy.getLocalStorage('search').should('be.equal', initialTerm)
+
         cy.get('#search')
           .should('be.visible')
           .clear()
@@ -259,6 +267,9 @@ describe('Hacker Stories', () => {
           .type(`${newTerm}{enter}`)
         cy.wait('@getStories')
 
+        cy.getLocalStorage('search')
+          .should('be.equal', newTerm)
+
         cy.get('.item').should('have.length', stories.hits.length)
 
         cy.get(`button:contains(${initialTerm})`)
@@ -274,6 +285,9 @@ describe('Hacker Stories', () => {
           .click()
         cy.wait('@getStories')
 
+        cy.getLocalStorage('search')
+          .should('be.equal', newTerm)
+
         cy.get('.item').should('have.length', stories.hits.length)
 
         cy.get(`button:contains(${initialTerm})`)
@@ -282,7 +296,7 @@ describe('Hacker Stories', () => {
 
       context('Last searches', () => {
         Cypress._.times(2, () => {
-          it.only('shows a max of 5 buttons for the last searched terms', () => {
+          it('shows a max of 5 buttons for the last searched terms', () => {
             const faker = require('faker')
             cy.intercept(
               'GET',
@@ -304,7 +318,7 @@ describe('Hacker Stories', () => {
 
             cy.get('.last-searches').within(() => {
               cy.get('button')
-              .should('have.length', 5)
+                .should('have.length', 5)
             })
           })
         })
