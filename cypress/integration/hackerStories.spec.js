@@ -72,7 +72,8 @@ describe('Hacker Stories', () => {
         cy.intercept(
           'GET',
           `**/search?query=${initialTerm}&page=0`,
-          { fixture: 'stories',
+          {
+            fixture: 'stories',
             delay: 1000
           }
         ).as('getStories')
@@ -95,7 +96,7 @@ describe('Hacker Stories', () => {
         it('shows a "Loading ..." state before showing the results', () => {
           cy.get('p:contains(Loading ...)').should('be.visible')
           cy.wait('@getStories')
-        });
+        })
         it('shows the right data for all rendered stories', () => {
           cy.get('.item')
             .first()
@@ -318,7 +319,7 @@ describe('Hacker Stories', () => {
               const randomTerm = faker.random.word()
               cy.get('#search')
                 .clear()
-                //.type(`${faker.random.word()}{enter}`)
+                // .type(`${faker.random.word()}{enter}`)
                 .type(`${randomTerm}{enter}`)
               cy.wait('@getRandomStories')
               cy.getLocalStorage('search')
@@ -355,4 +356,16 @@ context('Errors', () => {
     cy.get('p:contains(Something went wrong ...)')
       .should('be.visible')
   })
+})
+
+it('shows a Loading ... state before showing the results', () => {
+  cy.intercept('GET',
+    '**/search**',
+    {
+      fixture: 'stories',
+      delay: 3000
+    }).as('getDelayedStories')
+  cy.visit('/')
+  cy.assertLoadingIsShownAndHidden()
+  cy.wait('@getDelayedStories')
 })

@@ -7,7 +7,9 @@
     "lint": "npx standard",
     "lint:fix": "npx standard --fix",
     "test": "cypress run",
-    "cy:open": "cypress open"
+    "cy:open": "cypress open",
+    "cy:run nyan": "cypress run --reporter nyan"
+
   },
   "standard": {
     "globals": [
